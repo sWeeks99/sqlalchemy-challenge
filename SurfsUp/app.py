@@ -27,7 +27,8 @@ Station = Base.classes.station
 
 # Create our session (link) from Python to the DB
 session = Session(engine)
-
+start_date = dt.datetime.strptime(start,'%Y-%m-%d')
+end_date = dt.datetime.strptime(end,'%Y-%m-%d')
 #################################################
 # Flask Setup
 #################################################
@@ -92,8 +93,6 @@ def tobs():
 
 @app.route("/api/v1.0/temp/2016-08-24")
 def start():
-    start_date = '2016-08-24'
-    end_date = '2017-07-11'
     
     # Query the database to calculate TMIN, TAVG, and TMAX for dates between the start and end dates
     results = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
@@ -112,8 +111,6 @@ def start():
 
 @app.route("/api/v1.0/2016-08-24/2017-07-11")
 def temp_start_end():
-    start_date = '2016-08-24'
-    end_date = '2017-07-11'
     
     # Query the database to calculate TMIN, TAVG, and TMAX for dates between the start and end dates
     results = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
